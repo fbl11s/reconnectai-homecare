@@ -20,20 +20,17 @@ def home():
 @app.route('/api/telegram-webhook', methods=['POST'])
 def webhook():
     try:
-        # Get the incoming data
         data = request.get_json()
         logger.info(f"Received: {data}")
 
         if not data:
             return jsonify({"error": "No data"}), 400
 
-        # Process the message
         if 'message' in data:
             msg = data['message']
             chat_id = msg['chat']['id']
             text = msg.get('text', '')
             
-            # Handle commands
             if text == '/checkin':
                 send_message(chat_id, "✅ Check-in successful!")
             elif text == '/checkout':
