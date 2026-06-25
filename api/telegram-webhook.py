@@ -9,9 +9,19 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Your bot token from Vercel environment variables
-BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+# Your bot token from environment variables
+BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '8716258798:AAH6fuR83RrVhxJJ_SVNIzHjYUW4ehH7iaM')
 WEBHOOK_SECRET = os.getenv('WEBHOOK_SECRET', 'your-secret-here')
+
+@app.route('/', methods=['GET'])
+def home():
+    """Root endpoint to verify the app is running"""
+    return jsonify({
+        "status": "running",
+        "app": "ReconnectAI Homecare",
+        "version": "1.0",
+        "message": "Telegram webhook is ready"
+    }), 200
 
 @app.route('/api/telegram-webhook', methods=['POST'])
 def webhook():
@@ -20,6 +30,7 @@ def webhook():
         # Verify webhook secret for security
         secret = request.headers.get('X-Telegram-Bot-Api-Secret-Token')
         if secret != WEBHOOK_SECRET:
+            logger.warning(f"Invalid secret: {secret}")
             return jsonify({"error": "Unauthorized"}), 403
 
         update = request.get_json()
@@ -47,7 +58,7 @@ def webhook():
                 send_telegram_message(chat_id, response)
                 
             elif text == '/start':
-                response = "Welcome to Reconnectial Studios Time Tracker!\n\n"
+                response = "🏥 Welcome to ReconnectAI Homecare Time Tracker!\n\n"
                 response += "Available commands:\n"
                 response += "/checkin - Start your shift (share location)\n"
                 response += "/checkout - End your shift (share location)\n"
@@ -58,7 +69,7 @@ def webhook():
         
     except Exception as e:
         logger.error(f"Error: {e}")
-        return jsonify({"status": "error"}), 500
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 def handle_checkin(user_id, username, location, chat_id):
     """Process check-in with location"""
@@ -69,16 +80,17 @@ def handle_checkin(user_id, username, location, chat_id):
         "username": username,
         "action": "checkin",
         "timestamp": timestamp,
-        "location": location
+        "location": location,
+        "app": "ReconnectAI Homecare"
     }
     
     logger.info(f"Check-in: {checkin_data}")
     
     response = f"✅ Check-in successful!\n"
-    response += f"User: @{username}\n"
-    response += f"Time: {timestamp}\n"
+    response += f"👤 User: @{username}\n"
+    response += f"⏰ Time: {timestamp}\n"
     if location:
-        response += f"📍 Location confirmed"
+        response += f"📍 Location confirmed (lat: {location.get('latitude')}, lon: {location.get('longitude')})"
     else:
         response += f"⚠️ No location shared. Please share your location."
     
@@ -93,14 +105,15 @@ def handle_checkout(user_id, username, location, chat_id):
         "username": username,
         "action": "checkout",
         "timestamp": timestamp,
-        "location": location
+        "location": location,
+        "app": "ReconnectAI Homecare"
     }
     
     logger.info(f"Check-out: {checkout_data}")
     
     response = f"✅ Check-out successful!\n"
-    response += f"User: @{username}\n"
-    response += f"Time: {timestamp}\n"
+    response += f"👤 User: @{username}\n"
+    response += f"⏰ Time: {timestamp}\n"
     if location:
         response += f"📍 Location confirmed"
     
