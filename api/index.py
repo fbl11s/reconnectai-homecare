@@ -190,8 +190,11 @@ def handle_export(chat_id):
                 "Authorization": f"Bearer {RESEND_API_KEY}"
             }
         )
-        urllib.request.urlopen(req)
+        resp = urllib.request.urlopen(req)
         return f"📧 Weekly timesheet ({len(rows)} sessions) sent to <b>{ADMIN_EMAIL}</b>"
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()
+        return f"❌ Resend error {e.code}: {body}"
     except Exception as e:
         return f"❌ Export failed: {str(e)}"
 
