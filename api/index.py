@@ -167,8 +167,8 @@ def handle_export(chat_id):
     # Send via Resend
     week_label = datetime.now(timezone.utc).strftime('Week of %b %d, %Y')
     email_payload = {
-        "from": "ReconnectAI Homecare <onboarding@resend.dev>",
-        "to": [ADMIN_EMAIL],
+        "from": "ReconnectAI Homecare <fbl11s@gmail.com>",
+        "to": ["fbl11s@gmail.com"],
         "subject": f"Homecare Timesheet Export — {week_label}",
         "html": f"<p>Please find attached the weekly timesheet export for <b>{week_label}</b>.</p><p>Total sessions: <b>{len(rows)}</b></p>",
         "attachments": [
