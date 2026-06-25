@@ -5,6 +5,7 @@ import urllib.request
 import psycopg2
 import csv
 import io
+import base64
 from datetime import datetime, timezone
 
 BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '8716258798:AAH6fuR83RrVhxJJ_SVNIzHjYUW4ehH7iaM')
@@ -174,7 +175,7 @@ def handle_export(chat_id):
         "attachments": [
             {
                 "filename": f"timesheet_{datetime.now(timezone.utc).strftime('%Y_%m_%d')}.csv",
-                "content": csv_content,
+                "content": base64.b64encode(csv_content.encode()).decode(),
                 "content_type": "text/csv"
             }
         ]
