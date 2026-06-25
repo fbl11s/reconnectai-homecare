@@ -1,22 +1,17 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/telegram-webhook.py",
-      "use": "@vercel/python",
-      "config": {
-        "entrypoint": "api/telegram-webhook:app"
-      }
+  "functions": {
+    "api/telegram-webhook.py": {
+      "runtime": "python3.9"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/telegram-webhook",
-      "dest": "api/telegram-webhook.py"
+      "dest": "/api/telegram-webhook.py"
     },
     {
       "src": "/(.*)",
-      "dest": "/public/index.html"
+      "dest": "/api/telegram-webhook.py"
     }
   ]
 }
