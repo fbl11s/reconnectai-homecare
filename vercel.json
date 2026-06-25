@@ -1,17 +1,1 @@
-{
-  "functions": {
-    "api/send-telegram.py": {
-      "runtime": "python@3.9"
-    }
-  },
-  "routes": [
-    {
-      "src": "/api/telegram-webhook",
-      "dest": "/api/send-telegram.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/send-telegram.py"
-    }
-  ]
-}
+{}
