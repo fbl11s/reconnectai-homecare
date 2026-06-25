@@ -1,2 +1,2 @@
 [tool.vercel]
-entrypoint = "api.telegram-webhook:app"
+entrypoint = "api.send-telegram:app"
