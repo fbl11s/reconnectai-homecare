@@ -1,9 +1,10 @@
 {
-  "functions": {
-    "api/telegram-webhook.py": {
-      "runtime": "python@3.9"
+  "builds": [
+    {
+      "src": "api/telegram-webhook.py",
+      "use": "@vercel/python@2.0.0"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/telegram-webhook",
