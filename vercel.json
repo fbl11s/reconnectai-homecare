@@ -1,10 +1,10 @@
 {
   "functions": {
     "api/telegram-webhook.py": {
-      "runtime": "python3.9"
+      "runtime": "python3.12"
     },
     "api/send-telegram.py": {
-      "runtime": "python3.9"
+      "runtime": "python3.12"
     }
   },
   "rewrites": [
