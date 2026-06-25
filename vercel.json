@@ -1,13 +1,5 @@
 {
-  "functions": {
-    "api/telegram-webhook.py": {
-      "runtime": "python3.12"
-    },
-    "api/send-telegram.py": {
-      "runtime": "python3.12"
-    }
-  },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/public/index.html" }
+    { "source": "/(.*)", "destination": "/api/telegram-webhook.py" }
   ]
 }
